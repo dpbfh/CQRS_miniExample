@@ -8,6 +8,7 @@ import java.util.List;
 public class HotelManager {
 
     private  HashMap<Integer,Booking> bookings = new HashMap<>();
+
     private static HotelManager instance;
 
     public static HotelManager getHotelManager(){
@@ -23,7 +24,7 @@ public class HotelManager {
      * @param bookedUntil ending date of the booking
      * @return The Bookingnumber of this specific booking, will be needed to cancel booking
      */
-    public  int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
+    public int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
         var booking = new Booking(Hotel.getHotel().getHotelRooms().get(roomNumber), guests, bookedFrom, bookedUntil);
         bookings.put(booking.getId(),booking);
         return booking.getId();

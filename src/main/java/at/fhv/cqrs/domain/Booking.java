@@ -1,6 +1,5 @@
 package at.fhv.cqrs.domain;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,6 +9,7 @@ public class Booking {
     private List<Person> guests;
     private LocalDate bookedFrom;
     private LocalDate bookedUntil;
+
     private static int lastID = 0;
     private int id;
 
