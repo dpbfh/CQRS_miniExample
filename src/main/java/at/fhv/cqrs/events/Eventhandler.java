@@ -13,26 +13,22 @@ public class Eventhandler {
 
 	public static void addEvent(Eventroot event) { 
         Events.add(event);
-        System.out.println(event);
 
         if(event instanceof HotelRoomCreated){
             hotelRoomCreatedListener.forEach(listener -> {
-                listener.inform(event);
-                System.out.println(event);
+                listener.informHotelRoomCreated((HotelRoomCreated)event);
             });
         }
 
         if(event instanceof RoomBooked){
             roomBookedListener.forEach(listener -> {
-                listener.inform(event);
-                System.out.println(event);
+                listener.informRoomBooked((RoomBooked)event);
             });
         }
 
         if(event instanceof  CancledBooking){
             cancledBookingListener.forEach(listener -> {
-                listener.inform(event);
-                System.out.println(event);
+                listener.informCancledBookingListener((CancledBooking)event);
             });
         }
     }

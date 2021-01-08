@@ -6,6 +6,8 @@ import at.fhv.cqrs.commands.RoomCreateComand;
 import at.fhv.cqrs.commands.controller.BookingService;
 import at.fhv.cqrs.commands.controller.RoomService;
 import at.fhv.cqrs.domain.Person;
+import at.fhv.cqrs.events.Eventhandler;
+import at.fhv.cqrs.events.listener.Listener;
 import io.micronaut.runtime.Micronaut;
 
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.List;
 public class Application {
 
     public static void main(String[] args) {
+        Eventhandler.subscribe(new Listener());
         RoomService rs = new RoomService();
         RoomCreateComand cmd1 = new RoomCreateComand();
         cmd1.setMaxGuestCount(2);

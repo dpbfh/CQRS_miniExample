@@ -10,17 +10,9 @@ public class BookingRead {
     private Booking booking;
     private float priceTotal;
 
-    public BookingRead(Booking booking, float priceTotal) {
+    public BookingRead(Booking booking) {
         this.booking = booking;
-        this.priceTotal = priceTotal;
-    }
-
-    public BookingRead getFreeBooking(LocalDate start, LocalDate end){
-        if(isBookingFree(start,end)){
-            float priceTotal = (int)booking.getRoom().getPrice() * Duration.between(start, end).toDays();
-            return new BookingRead(booking, priceTotal);
-        }
-        return null;
+        this.priceTotal = (int)booking.getRoom().getPrice() * Duration.between(booking.getBookedFrom(), booking.getBookedUntil()).toDays();;
     }
 
     public boolean isBookingFree(LocalDate start, LocalDate end) {
@@ -30,5 +22,11 @@ public class BookingRead {
         return false;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
 
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 }
