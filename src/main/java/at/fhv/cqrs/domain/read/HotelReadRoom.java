@@ -12,18 +12,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HotelReadRoom {
-    private HotelRoom room;
-    private List<TimeSpan> timeSpans;
+
+    private List<TimeSpan> timeSpans = new LinkedList<>();
 
 
-    public HotelReadRoom(HotelRoom room){
-        this.room = room;
+    public HotelReadRoom(){
+
     }
 
     public void cancelBooking(LocalDate start, LocalDate end){
-        timeSpans.removeIf(timeSpan -> timeSpan.start == start && timeSpan.end == end);
+        System.out.println(timeSpans.size()+"~~~~~~~~~~~");
+        timeSpans.removeIf(timeSpan -> timeSpan.start.isEqual(start) && timeSpan.end.isEqual(end));
+        System.out.println(timeSpans.size()+"~~~~~~~~~~~");
+
     }
 
+    public void addBooking(LocalDate start, LocalDate end){
+        try {
+            timeSpans.add(new TimeSpan(start,end));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private class TimeSpan {
         final LocalDate start;
@@ -40,7 +51,7 @@ public class HotelReadRoom {
         if(bookedFrom.isAfter(bookedUntil)){
             return false;
         }
-        if(numberOfGuests <= room.getMaxGuestCount()){
+        if(numberOfGuests <= this.getMaxGuestCount()){
             for (TimeSpan timeSpan : timeSpans){
                 if(bookedUntil.isAfter(timeSpan.start) && bookedUntil.isBefore(timeSpan.end)){
                     if(bookedFrom.isAfter(timeSpan.start) && bookedFrom.isBefore(timeSpan.end)){
@@ -52,6 +63,35 @@ public class HotelReadRoom {
         return true;
     }
 
+
+    private int id;
+    private float price;
+    private int maxGuestcount;
+
+
+    public int getMaxGuestCount(){
+        return maxGuestcount;
+    }
+
+    public void setMaxGuestCount(int maxGuestcount){
+        this.maxGuestcount =  maxGuestcount;
+    }
+
+    public float getPrice(){
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /*
 

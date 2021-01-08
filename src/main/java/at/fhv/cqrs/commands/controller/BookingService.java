@@ -25,6 +25,7 @@ public class BookingService{
             event.setBookedFrom(cmd.getBookedFrom());
             event.setBookedUntil(cmd.getBookedUntil());
             event.setGuests(Collections.unmodifiableList(cmd.getGuests()));
+            event.setRoomNumber(cmd.getRoomNumber());
             event.setUnixTimestamp(Instant.now().getEpochSecond());
             event.setTransactionId(UUID.randomUUID());
 
