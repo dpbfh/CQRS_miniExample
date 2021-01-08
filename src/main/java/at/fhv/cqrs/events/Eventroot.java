@@ -1,3 +1,7 @@
+package at.fhv.cqrs.events;
+
+import java.util.UUID;
+
 public abstract class Eventroot {
 
     private long unixtimestamp;
