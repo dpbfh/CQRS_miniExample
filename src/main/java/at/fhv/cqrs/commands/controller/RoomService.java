@@ -15,7 +15,7 @@ public class RoomService{
         room.setPrice(cmd.getPrice());
         Hotel.getHotel().addBaseRoom(room);
 
-        HotelRoomCreated event = new HotelRoomCreated();
+        HotelRoomCreated event = new HotelRoomCreated(room.getId());
         event.setMaxGuestCount(room.getMaxGuestCount());
         event.setUnixTimestamp(Instant.now().getEpochSecond());
         event.setPrice(room.getPrice());
