@@ -6,23 +6,20 @@ import at.fhv.cqrs.domain.HotelManager;
 import at.fhv.cqrs.domain.HotelRoom;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class HotelReadRepository {
 
-    private List<HotelReadRoom> hotelReadRooms;
+    private HashMap<Integer, HotelReadRoom> hotelReadRooms;
+    private List<BookingRead> readBookings;
 
-    public HotelReadRepository(List<HotelReadRoom> hotelReadRooms){
-        this.hotelReadRooms = hotelReadRooms;
-
+    public HotelReadRepository(){
+        this.hotelReadRooms = new HashMap<>();
     }
 
-    public List<HotelReadRoom> getFreeRooms(LocalDate bookedFrom, LocalDate bookedUntil, int numberOfGuests){
-        List<HotelReadRoom> freeRooms = hotelReadRooms;
-        for (HotelReadRoom room : hotelReadRooms) {
+    public Collection<HotelReadRoom> getFreeRooms(LocalDate bookedFrom, LocalDate bookedUntil, int numberOfGuests){
+        Collection<HotelReadRoom> freeRooms = new LinkedList<>();
+        for (HotelReadRoom room : hotelReadRooms.values()) {
             if(room.isRoomFree(bookedFrom, bookedUntil, numberOfGuests)){
                 freeRooms.add(room);
             }
@@ -30,15 +27,12 @@ public class HotelReadRepository {
         return freeRooms;
     }
 
-    public List<Booking> getBookings(LocalDate bookedFrom, LocalDate bookedUntil){
-        List<Booking> bookingsInThatTimeSpan = new LinkedList<>();
-        for(Booking booking : HotelManager.getHotelManager().getBookings()){
-            if(booking.getBookedFrom().isAfter(bookedFrom) ||booking.getBookedFrom().isEqual(bookedFrom)){
-                if(booking.getBookedFrom().isBefore(bookedUntil) || booking.getBookedFrom().isEqual(bookedUntil)){
-                    bookingsInThatTimeSpan.add(booking);
-                }
+    public List<BookingRead> getBookings(LocalDate bookedFrom, LocalDate bookedUntil){
+        for(BookingRead bookingRead: readBookings){
+            if(bookingRead.getFreeBooking(bookedFrom, bookedUntil) != null){
+                readBookings.add(bookingRead);
             }
         }
-        return bookingsInThatTimeSpan;
+        return readBookings;
     }
 }
