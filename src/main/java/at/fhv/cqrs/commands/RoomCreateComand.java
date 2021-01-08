@@ -1,4 +1,5 @@
 package at.fhv.cqrs.commands;
+
 public class RoomCreateComand {
     private float price;
     private int maxGuestcount;
@@ -18,4 +19,5 @@ public class RoomCreateComand {
     public void setPrice(float price) {
         this.price = price;
     }
+
 }
