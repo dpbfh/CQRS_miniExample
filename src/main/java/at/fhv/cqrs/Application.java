@@ -1,8 +1,16 @@
 package at.fhv.cqrs;
 
+import at.fhv.cqrs.commands.BookroomCommand;
+import at.fhv.cqrs.commands.CancleBookingCommand;
 import at.fhv.cqrs.commands.RoomCreateComand;
+import at.fhv.cqrs.commands.controller.BookingService;
 import at.fhv.cqrs.commands.controller.RoomService;
+import at.fhv.cqrs.domain.Person;
 import io.micronaut.runtime.Micronaut;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
 
 public class Application {
 
@@ -33,6 +41,27 @@ public class Application {
         cmd5.setPrice(250);
         rs.createRoom(cmd5);
 
+        BookingService bookingService = new BookingService();
+        BookroomCommand bcmd = new BookroomCommand();
+
+        bcmd.setBookedFrom(LocalDate.of(2021,4,20).atStartOfDay(ZoneId.systemDefault()).toInstant().getEpochSecond());
+        bcmd.setBookedUntil(LocalDate.of(2021,5,20).atStartOfDay(ZoneId.systemDefault()).toInstant().getEpochSecond());
+        bcmd.setRoomNumber(1);
+        bcmd.setGuests(List.of(new Person("Dezpot","PITCHNOW", LocalDate.of(2020,4,20))));
+        System.out.println(bookingService.bookRoom(bcmd));
+
+        BookroomCommand bcmd1 = new BookroomCommand();
+        bcmd1.setBookedFrom(LocalDate.of(2021,4,2).atStartOfDay(ZoneId.systemDefault()).toInstant().getEpochSecond());
+        bcmd1.setBookedUntil(LocalDate.of(2021,6,20).atStartOfDay(ZoneId.systemDefault()).toInstant().getEpochSecond());
+        bcmd1.setRoomNumber(1);
+        bcmd1.setGuests(List.of(new Person("Dominik","Pöckle>", LocalDate.of(2020,4,20))));
+        System.out.println(bookingService.bookRoom(bcmd1));
+
+
+        CancleBookingCommand cmd = new CancleBookingCommand();
+        cmd.setBookingNumber(1);
+        bookingService.canclebooking(cmd);
+        System.out.println(bookingService.bookRoom(bcmd1));
 
         Micronaut.run(Application.class, args);
 

@@ -9,6 +9,7 @@ public class Eventhandler {
     private static List<Eventroot> Events = new LinkedList<>();
     private static Set<IHotelRoomCreatedListener> hotelRoomCreatedListener = new HashSet<>();
     private static Set<IRoomBookedListener> roomBookedListener = new HashSet<>();
+    private static Set<ICancledBookingListener> cancledBookingListener = new HashSet<>();
 
 	public static void addEvent(Eventroot event) { 
         Events.add(event);
@@ -21,8 +22,15 @@ public class Eventhandler {
             });
         }
 
-        if(event instanceof HotelRoomCreated){
+        if(event instanceof RoomBooked){
             roomBookedListener.forEach(listener -> {
+                listener.inform(event);
+                System.out.println(event);
+            });
+        }
+
+        if(event instanceof  CancledBooking){
+            cancledBookingListener.forEach(listener -> {
                 listener.inform(event);
                 System.out.println(event);
             });
@@ -37,6 +45,10 @@ public class Eventhandler {
         if(listener instanceof IRoomBookedListener){
             roomBookedListener.add((IRoomBookedListener)listener);
         }
+
+        if(listener instanceof ICancledBookingListener){
+            cancledBookingListener.add((ICancledBookingListener)listener);
+        }
     }
 
     public static void unsubscribe(IHotelEventListener listener){
@@ -46,8 +58,12 @@ public class Eventhandler {
         }
 
         if(listener instanceof IRoomBookedListener){
-            hotelRoomCreatedListener.remove(listener);
+            roomBookedListener.remove(listener);
+        }
+        if(listener instanceof ICancledBookingListener){
+            cancledBookingListener.remove(listener);
         }
     }
+
 
 }

@@ -14,4 +14,8 @@ public class Person {
         _birthday = birthday;
     }
 
+    @Override
+    public String toString(){
+        return _surName + " " + _lastName + " ";
+    }
 }

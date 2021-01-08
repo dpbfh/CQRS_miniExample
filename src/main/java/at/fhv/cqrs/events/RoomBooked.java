@@ -2,6 +2,10 @@ package at.fhv.cqrs.events;
 
 import at.fhv.cqrs.domain.Person;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 
 public class RoomBooked extends Eventroot{
@@ -49,5 +53,15 @@ public class RoomBooked extends Eventroot{
 
     public void setBookedUntil(long bookedUntil){
         this.bookedUntil = bookedUntil;
+    }
+
+    @Override
+    public String toString(){
+        OffsetDateTime odt = OffsetDateTime.now ( ZoneId.systemDefault () );
+        ZoneOffset zoneOffset = odt.getOffset ();
+        return "BookedRoomEvent:  BookingNumber: "+ id + " RoomNr." + roomNumber +
+                "\n Guests:  " +  guests +
+                "\n Booked from: "+ LocalDateTime.ofEpochSecond(bookedFrom, 0, zoneOffset) +
+                "\n Booked until: " +LocalDateTime.ofEpochSecond(bookedUntil, 0, zoneOffset) ;
     }
 }
