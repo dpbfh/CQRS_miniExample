@@ -1,6 +1,7 @@
 package at.fhv.cqrs.domain;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,13 +33,10 @@ public class HotelManager {
         bookings.remove(bookingNumber);
     }
 
-    public static List<Booking> getBookings() {
-        return bookings;
+    public Collection<Booking> getBookings() {
+        return bookings.values();
     }
 
-    public static void setBookings(List<Booking> bookings) {
-        HotelManager.bookings = bookings;
-    }
 
     public static HotelManager getInstance() {
         return instance;
