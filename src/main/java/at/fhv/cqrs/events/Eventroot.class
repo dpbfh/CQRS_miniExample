@@ -1,0 +1,23 @@
+public abstract class Eventroot {
+
+    private long unixtimestamp;
+
+    public long getUnixTimestamp() {
+        return unixtimestamp;
+    }
+
+    public void setUnixTimestamp(long unixtimestamp) {
+        this.unixtimestamp = unixtimestamp;
+    }
+
+    //Stores a random transaction Id
+    private UUID transactionId;
+
+    public UUID getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(UUID transactionId) {
+        this.transactionId = transactionId;
+    }
+} 
