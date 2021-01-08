@@ -8,7 +8,7 @@ import java.util.List;
 public class HotelManager {
 
     private  HashMap<Integer,Booking> bookings = new HashMap<>();
-
+    private  HashMap<Integer,Booking> canceledBookings = new HashMap<>();
     private static HotelManager instance;
 
     public static HotelManager getHotelManager(){
@@ -25,12 +25,28 @@ public class HotelManager {
      * @return The Bookingnumber of this specific booking, will be needed to cancel booking
      */
     public int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
+        if(bookedFrom.isAfter(bookedUntil) || roomNumber < 1 || guests.isEmpty()){
+            return -1;
+        }
         var booking = new Booking(Hotel.getHotel().getHotelRooms().get(roomNumber), guests, bookedFrom, bookedUntil);
-        bookings.put(booking.getId(),booking);
-        return booking.getId();
+        boolean isRoomAvailable = true;
+        for(Booking openBooking : bookings.values()){
+            if(openBooking.getRoom().getId() == roomNumber){
+                if(openBooking.getBookedFrom().isBefore(bookedUntil) && openBooking.getBookedUntil().isAfter(bookedFrom)){
+                    isRoomAvailable = false;
+                }
+            }
+        }
+        if(isRoomAvailable) {
+            bookings.put(booking.getId(), booking);
+            return booking.getId();
+        } else {
+            return -1;
+        }
     }
 
     public  void CancelRoom(int bookingNumber){
+        canceledBookings.put(bookingNumber, bookings.get(bookingNumber));
         bookings.remove(bookingNumber);
     }
 
