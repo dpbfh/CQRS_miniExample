@@ -1,11 +1,12 @@
 package at.fhv.cqrs.domain;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 public class HotelManager {
 
-    private static List<Booking> bookings;
+    private  HashMap<Integer,Booking> bookings = new HashMap<>();
     private static HotelManager instance;
 
     public static HotelManager getHotelManager(){
@@ -21,13 +22,13 @@ public class HotelManager {
      * @param bookedUntil ending date of the booking
      * @return The Bookingnumber of this specific booking, will be needed to cancel booking
      */
-    private static int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
+    public  int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
         var booking = new Booking(Hotel.getHotel().getHotelRooms().get(roomNumber), guests, bookedFrom, bookedUntil);
-        bookings.add(booking);
-        return bookings.indexOf(booking);
+        bookings.put(booking.getId(),booking);
+        return booking.getId();
     }
 
-    private static void CancelRoom(int bookingNumber){
+    public  void CancelRoom(int bookingNumber){
         bookings.remove(bookingNumber);
     }
 }
