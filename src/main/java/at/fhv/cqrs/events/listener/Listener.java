@@ -1,6 +1,7 @@
 package at.fhv.cqrs.events.listener;
 
 import at.fhv.cqrs.domain.HotelRoom;
+import at.fhv.cqrs.domain.read.BookingRead;
 import at.fhv.cqrs.domain.read.HotelReadRepository;
 import at.fhv.cqrs.domain.read.HotelReadRoom;
 import at.fhv.cqrs.events.CancledBooking;
@@ -19,10 +20,10 @@ public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,I
     public void informCancledBookingListener(CancledBooking event) {
         var room = HotelReadRepository.getInstance().getRoombyID(event.getRoomnumber());
         if(room != null) {
-
             room.cancelBooking(event.getBookedFrom(),event.getBookeduntil());
             System.out.println("Cancled");
         }
+        HotelReadRepository.getInstance().cancleBooking(event.getBookingnumber());
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,I
             room.addBooking(LocalDateTime.ofEpochSecond(event.getBookedFrom(), 0, zoneOffset).toLocalDate(),LocalDateTime.ofEpochSecond(event.getBookedUntil(), 0, zoneOffset).toLocalDate());
             System.out.println("Booked");
         }
-
+       // HotelReadRepository.getInstance().addBookingRead();
     }
 
 }

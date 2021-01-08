@@ -10,6 +10,8 @@ import java.util.List;
 
 public class RoomBooked extends Eventroot{
     private int id;
+    private float price;
+
     public RoomBooked(int id){
         this.id = id;
     }
@@ -38,6 +40,10 @@ public class RoomBooked extends Eventroot{
         return bookedUntil;
     }
 
+
+    public void setRoomPrice(float price){
+        this.price = price;
+    }
 
     public void setRoomNumber(int roomNumber){
         this.roomNumber = roomNumber;

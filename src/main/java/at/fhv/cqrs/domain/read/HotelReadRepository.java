@@ -11,7 +11,7 @@ import java.util.*;
 public class HotelReadRepository {
 
     private  Map<Integer,HotelReadRoom> hotelReadRooms;
-    private List<BookingRead> bookings = new LinkedList<>();
+    private Map<Integer,BookingRead> bookings = new HashMap<>();
     private static HotelReadRepository instance;
 
     public static HotelReadRepository getInstance(){
@@ -28,6 +28,12 @@ public class HotelReadRepository {
          this.hotelReadRooms.put(hotelReadRooms.getId(),hotelReadRooms);
     }
 
+    public void addBookingRead(BookingRead bookingRead){
+        bookings.put(bookingRead.getId(),bookingRead);
+    }
+    public void cancleBooking( int bookingnumber){
+        bookings.remove(bookingnumber);
+    }
     public Collection<HotelReadRoom> getFreeRooms(LocalDate bookedFrom, LocalDate bookedUntil, int numberOfGuests){
         Collection<HotelReadRoom> freeRooms = new LinkedList<>();
         for (HotelReadRoom room : hotelReadRooms.values()) {
@@ -41,7 +47,7 @@ public class HotelReadRepository {
 
     public List<BookingRead> getBookings(LocalDate bookedFrom, LocalDate bookedUntil){
         List<BookingRead> bookingsInThatTimeSpan = new LinkedList<>();
-        for(BookingRead booking : bookings){
+        for(BookingRead booking : bookings.values()){
             if(booking.isBookingFree(bookedFrom,bookedUntil)){
                     bookingsInThatTimeSpan.add(booking);
             }
