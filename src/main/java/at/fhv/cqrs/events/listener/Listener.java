@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,ICancledBookingListener{
 
@@ -21,9 +23,9 @@ public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,I
         var room = HotelReadRepository.getInstance().getRoombyID(event.getRoomnumber());
         if(room != null) {
             room.cancelBooking(event.getBookedFrom(),event.getBookeduntil());
-            System.out.println("Cancled");
         }
         HotelReadRepository.getInstance().cancleBooking(event.getBookingnumber());
+        System.out.println(event);
     }
 
     @Override
@@ -34,7 +36,8 @@ public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,I
         readRoom.setPrice(event.getPrice());
         readRoom.setId(event.getId());
         HotelReadRepository.getInstance().addHotelReadRoom(readRoom);
-        System.out.println("Created");    }
+        System.out.println(event);
+    }
 
     @Override
     public void inform(Eventroot event) {
@@ -48,9 +51,14 @@ public class Listener implements IRoomBookedListener,IHotelRoomCreatedListener,I
             OffsetDateTime odt = OffsetDateTime.now ( ZoneId.systemDefault () );
             ZoneOffset zoneOffset = odt.getOffset ();
             room.addBooking(LocalDateTime.ofEpochSecond(event.getBookedFrom(), 0, zoneOffset).toLocalDate(),LocalDateTime.ofEpochSecond(event.getBookedUntil(), 0, zoneOffset).toLocalDate());
-            System.out.println("Booked");
+            System.out.println(event);
         }
-       // HotelReadRepository.getInstance().addBookingRead();
+        List<String> stringList = new LinkedList<>();
+        for (var g : event.getGuests()) {
+            stringList.add( g.toString());
+        }
+        BookingRead bookingRead = new BookingRead(event.getId(),event.getRoomNumber(),event.getRoomPrice(), event.getBookedFrom(),event.getBookedUntil(),stringList);
+        HotelReadRepository.getInstance().addBookingRead(bookingRead);
     }
 
 }

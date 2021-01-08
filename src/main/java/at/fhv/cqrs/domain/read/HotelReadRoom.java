@@ -48,7 +48,7 @@ public class HotelReadRoom {
     }
 
     public boolean isRoomFree(LocalDate bookedFrom, LocalDate bookedUntil, int numberOfGuests){
-        if(bookedFrom.isAfter(bookedUntil)){
+        if(bookedFrom.isAfter(bookedUntil) || numberOfGuests <= 0||numberOfGuests > this.getMaxGuestCount()){
             return false;
         }
         if(numberOfGuests <= this.getMaxGuestCount()){
@@ -57,6 +57,8 @@ public class HotelReadRoom {
                     if(bookedFrom.isAfter(timeSpan.start) && bookedFrom.isBefore(timeSpan.end)){
                         return false;
                     }
+                }else{
+                    return false;
                 }
             }
         }

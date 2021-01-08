@@ -4,8 +4,7 @@ import at.fhv.cqrs.domain.Booking;
 import at.fhv.cqrs.domain.HotelRoom;
 import at.fhv.cqrs.domain.Person;
 
-import java.time.Duration;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.List;
 
 public class BookingRead {
@@ -18,6 +17,18 @@ public class BookingRead {
     private LocalDate bookedUntil;
     private List<String> guests;
     private int id;
+
+    public BookingRead(int bookingId, int roomNumber, float roomPrice, long bookedFrom, long bookedUntil, List<String> guests) {
+        OffsetDateTime odt = OffsetDateTime.now ( ZoneId.systemDefault () );
+        ZoneOffset zoneOffset = odt.getOffset ();
+        this.bookedFrom = LocalDateTime.ofEpochSecond(bookedFrom, 0, zoneOffset).toLocalDate();
+        this.bookedUntil = LocalDateTime.ofEpochSecond(bookedUntil, 0, zoneOffset).toLocalDate();
+        this.id = bookingId;
+        this.roomNumber = roomNumber;
+        this.roomPrice = roomPrice;
+        this.priceTotal = roomPrice * Duration.between(this.bookedFrom.atStartOfDay(), this.bookedUntil.atStartOfDay()).toDays();;
+
+    }
 
     public BookingRead(int bookingId, int roomNumber, float roomPrice, LocalDate bookedFrom, LocalDate bookedUntil, List<String> guests) {
         this.id = bookingId;

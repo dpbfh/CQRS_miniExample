@@ -1,7 +1,9 @@
 package at.fhv.cqrs.domain;
 
-import java.time.LocalDate;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDate;
+@Schema
 public class Person {
 
     private String _surName;
@@ -14,8 +16,41 @@ public class Person {
         _birthday = birthday;
     }
 
+    public Person(){
+    }
+
     @Override
     public String toString(){
         return _surName + " " + _lastName + " ";
+    }
+
+    @Schema
+    public String getSurName() {
+        return _surName;
+    }
+
+    @Schema
+    public String getLastName() {
+        return _lastName;
+    }
+
+    @Schema
+    public LocalDate getBirthday() {
+        return _birthday;
+    }
+
+    @Schema
+    public void setSurName(String surName) {
+        _surName = surName;
+    }
+
+    @Schema
+    public void setLastName(String lastName) {
+        _lastName = lastName;
+    }
+
+    @Schema
+    public void setBirthday(LocalDate birthday) {
+        _birthday = birthday;
     }
 }

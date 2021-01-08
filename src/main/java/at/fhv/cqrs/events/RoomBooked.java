@@ -70,4 +70,8 @@ public class RoomBooked extends Eventroot{
                 "\n Booked from: "+ LocalDateTime.ofEpochSecond(bookedFrom, 0, zoneOffset) +
                 "\n Booked until: " +LocalDateTime.ofEpochSecond(bookedUntil, 0, zoneOffset) ;
     }
+
+    public float getRoomPrice() {
+        return price;
+    }
 }

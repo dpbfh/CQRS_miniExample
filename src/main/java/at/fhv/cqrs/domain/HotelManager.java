@@ -25,14 +25,16 @@ public class HotelManager {
      * @param guests The guests for this room
      * @param bookedFrom starting date of the booking
      * @param bookedUntil ending date of the booking
-     * @return The Bookingnumber of this specific booking, will be needed to cancel booking
+     * @return The Bookingnumber of this specific booking, will be needed to cancel booking -1 ungültige eingabe -2 raum leider nicht verfügbar
      */
     public int BookRoom(int roomNumber, List<Person> guests, LocalDate bookedFrom, LocalDate bookedUntil){
-        if(bookedFrom.isAfter(bookedUntil) || roomNumber < 1 || guests.isEmpty()){
+        if(bookedFrom.isBefore(LocalDate.now()) || bookedFrom.isAfter(bookedUntil) || roomNumber < 1 || guests.isEmpty() ){
             return -1;
         }
+
         var booking = new Booking(Hotel.getHotel().getHotelRooms().get(roomNumber), guests, bookedFrom, bookedUntil);
         boolean isRoomAvailable = true;
+
         for(Booking openBooking : bookings.values()){
             if(openBooking.getRoom().getId() == roomNumber){
                 if(openBooking.getBookedFrom().isBefore(bookedUntil) && openBooking.getBookedUntil().isAfter(bookedFrom)){
@@ -40,11 +42,12 @@ public class HotelManager {
                 }
             }
         }
+
         if(isRoomAvailable) {
             bookings.put(booking.getId(), booking);
             return booking.getId();
         } else {
-            return -1;
+            return -2;
         }
     }
 

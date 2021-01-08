@@ -3,6 +3,7 @@ package at.fhv.cqrs.commands.controller;
 import at.fhv.cqrs.commands.BookroomCommand;
 import at.fhv.cqrs.commands.CancleBookingCommand;
 import at.fhv.cqrs.domain.HotelManager;
+import at.fhv.cqrs.domain.read.HotelReadRepository;
 import at.fhv.cqrs.events.CancledBooking;
 import at.fhv.cqrs.events.Eventhandler;
 import at.fhv.cqrs.events.RoomBooked;
@@ -25,6 +26,7 @@ public class BookingService{
             event.setBookedFrom(cmd.getBookedFrom());
             event.setBookedUntil(cmd.getBookedUntil());
             event.setGuests(Collections.unmodifiableList(cmd.getGuests()));
+            event.setRoomPrice(HotelReadRepository.getInstance().getRoombyID(cmd.getRoomNumber()).getPrice());
             event.setRoomNumber(cmd.getRoomNumber());
             event.setUnixTimestamp(Instant.now().getEpochSecond());
             event.setTransactionId(UUID.randomUUID());
@@ -37,7 +39,7 @@ public class BookingService{
         return id;
     }
 
-    public void canclebooking(CancleBookingCommand cmd){
+    public void canclebooking(CancleBookingCommand cmd) throws Exception {
         var manager = HotelManager.getHotelManager();
         var booking = manager.CancelRoom(cmd.getBookingNumber());
         if (booking != null) {
@@ -47,6 +49,8 @@ public class BookingService{
 
             //Eventhandler
             Eventhandler.addEvent(event);
+        }else{
+            throw new Exception();
         }
 
     }
