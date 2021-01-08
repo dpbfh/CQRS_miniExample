@@ -12,6 +12,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HotelReadRoom {
+    private HotelRoom room;
+    private List<TimeSpan> timeSpans;
+
+
+    public HotelReadRoom(HotelRoom room){
+        this.room = room;
+    }
+
+    public void cancelBooking(LocalDate start, LocalDate end){
+        timeSpans.removeIf(timeSpan -> timeSpan.start == start && timeSpan.end == end);
+    }
+
+    private class TimeSpan {
+        final LocalDate start;
+        final LocalDate end;
+        TimeSpan(LocalDate start, LocalDate end) throws Exception {
+            if(start.isBefore(end)) {
+                this.start = start;
+                this.end = end;
+            } else throw new Exception("Start date is after end date");
+        }
+    }
+
 
     /**
      * Gets the bookings if the starting date of the booking is on or inbeetween the timespan
