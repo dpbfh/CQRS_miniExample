@@ -17,4 +17,36 @@ public class Booking {
         this.bookedFrom = bookedFrom;
         this.bookedUntil = bookedUntil;
     }
+
+    public HotelRoom getRoom() {
+        return room;
+    }
+
+    public void setRoom(HotelRoom room) {
+        this.room = room;
+    }
+
+    public List<Person> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(List<Person> guests) {
+        this.guests = guests;
+    }
+
+    public LocalDate getBookedFrom() {
+        return bookedFrom;
+    }
+
+    public void setBookedFrom(LocalDate bookedFrom) {
+        this.bookedFrom = bookedFrom;
+    }
+
+    public LocalDate getBookedUntil() {
+        return bookedUntil;
+    }
+
+    public void setBookedUntil(LocalDate bookedUntil) {
+        this.bookedUntil = bookedUntil;
+    }
 }
