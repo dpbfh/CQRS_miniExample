@@ -1,9 +1,12 @@
 package at.fhv.cqrs.domain;
 
+import at.fhv.cqrs.commands.controller.Pair;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HotelManager {
 
@@ -45,9 +48,9 @@ public class HotelManager {
         }
     }
 
-    public  void CancelRoom(int bookingNumber){
+    public Booking CancelRoom(int bookingNumber){
         canceledBookings.put(bookingNumber, bookings.get(bookingNumber));
-        bookings.remove(bookingNumber);
+        return bookings.remove(bookingNumber);
     }
 
     public Collection<Booking> getBookings() {
