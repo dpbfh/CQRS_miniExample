@@ -31,4 +31,20 @@ public class HotelManager {
     public  void CancelRoom(int bookingNumber){
         bookings.remove(bookingNumber);
     }
+
+    public static List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public static void setBookings(List<Booking> bookings) {
+        HotelManager.bookings = bookings;
+    }
+
+    public static HotelManager getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(HotelManager instance) {
+        HotelManager.instance = instance;
+    }
 }

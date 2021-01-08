@@ -3,6 +3,7 @@ package at.fhv.cqrs.domain;
 import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.List;
+
 public class Booking {
 
     private HotelRoom room;
