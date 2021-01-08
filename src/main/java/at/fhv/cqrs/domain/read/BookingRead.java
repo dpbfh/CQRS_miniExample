@@ -2,29 +2,33 @@ package at.fhv.cqrs.domain.read;
 
 import at.fhv.cqrs.domain.Booking;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.HashMap;
-
 
 public class BookingRead {
 
-    private final HashMap<Integer, Booking> bookings;
-    private double priceTotal;
+    private Booking booking;
+    private float priceTotal;
 
-    public BookingRead(HashMap<Integer, Booking> bookings){
-        this.bookings = bookings;
+    public BookingRead(Booking booking, float priceTotal) {
+        this.booking = booking;
+        this.priceTotal = priceTotal;
     }
 
-    public HashMap<Integer, Booking> getBookings(LocalDate start, LocalDate end){
-        HashMap<Integer, Booking> bookingsInThatTimeSpan = new HashMap<>();
-        for(Booking booking : bookings.values()){
-            if(booking.getBookedFrom().isAfter(start) ||booking.getBookedFrom().isEqual(start)){
-                if(booking.getBookedFrom().isBefore(end) || booking.getBookedFrom().isEqual(end)){
-                    bookingsInThatTimeSpan.put(booking.getId(),booking);
-                }
-            }
+    public BookingRead getFreeBooking(LocalDate start, LocalDate end){
+        if(isBookingFree(start,end)){
+            float priceTotal = (int)booking.getRoom().getPrice() * Duration.between(start, end).toDays();
+            return new BookingRead(booking, priceTotal);
         }
-        return bookingsInThatTimeSpan;
+        return null;
     }
+
+    public boolean isBookingFree(LocalDate start, LocalDate end) {
+        if (booking.getBookedFrom().isAfter(start) || booking.getBookedFrom().isEqual(start)) {
+            return booking.getBookedFrom().isBefore(end) || booking.getBookedFrom().isEqual(end);
+        }
+        return false;
+    }
+
 
 }
