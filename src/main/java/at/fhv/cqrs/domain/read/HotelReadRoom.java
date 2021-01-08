@@ -24,6 +24,7 @@ public class HotelReadRoom {
         timeSpans.removeIf(timeSpan -> timeSpan.start == start && timeSpan.end == end);
     }
 
+
     private class TimeSpan {
         final LocalDate start;
         final LocalDate end;
@@ -35,6 +36,24 @@ public class HotelReadRoom {
         }
     }
 
+    public boolean isRoomFree(LocalDate bookedFrom, LocalDate bookedUntil, int numberOfGuests){
+        if(bookedFrom.isAfter(bookedUntil)){
+            return false;
+        }
+        if(numberOfGuests <= room.getMaxGuestCount()){
+            for (TimeSpan timeSpan : timeSpans){
+                if(bookedUntil.isAfter(timeSpan.start) && bookedUntil.isBefore(timeSpan.end)){
+                    if(bookedFrom.isAfter(timeSpan.start) && bookedFrom.isBefore(timeSpan.end)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    /*
 
     /**
      * Gets the bookings if the starting date of the booking is on or inbeetween the timespan
@@ -42,6 +61,7 @@ public class HotelReadRoom {
      * @param bookedUntil end of the timespan
      * @return the list of bookings in this specific timespan.
      */
+    /*
     public List<Booking> getBookings(LocalDate bookedFrom, LocalDate bookedUntil){
         List<Booking> bookingsInThatTimeSpan = new LinkedList<>();
         for(Booking booking : HotelManager.getHotelManager().getBookings()){
@@ -80,4 +100,5 @@ public class HotelReadRoom {
         }
         return freeRooms;
     }
+    */
 }
